@@ -4,9 +4,20 @@ Ce guide installe une copie indépendante de Maxinus sur un autre Mac. Ne copiez
 `.env`, vos conversations ou votre base personnelle, sauf demande explicite du propriétaire
 et transfert sécurisé.
 
+Pour l’architecture des conteneurs, une installation Docker manuelle et la configuration
+pas à pas d’Open WebUI et du mode vocal, consultez aussi
+[Déployer Maxinus Live avec Docker et Open WebUI](DOCKER.md).
+
 ## 1. Préparer le paquet
 
-Transférez le dépôt en excluant les éléments propres à votre machine :
+Le plus simple est de laisser la personne cloner le dépôt public :
+
+```bash
+git clone https://github.com/Salif50/MaxinusIA.git
+cd MaxinusIA
+```
+
+Ou transférez une copie propre en excluant les éléments propres à votre machine :
 
 ```text
 .env

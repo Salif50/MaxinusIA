@@ -19,6 +19,7 @@ plus vite, un modèle plus grand demande davantage de mémoire.
 - [Choisir un modèle selon son ordinateur](#choisir-un-modèle-selon-son-ordinateur)
 - [Installer Ollama et télécharger un modèle](#installer-ollama-et-télécharger-un-modèle)
 - [Installer et lancer Maxinus en local](#installer-et-lancer-maxinus-en-local)
+- [Comprendre le déploiement Docker](#comprendre-le-déploiement-docker)
 - [Changer de modèle](#changer-de-modèle)
 - [Commandes utiles](#commandes-utiles)
 - [Confidentialité et fonctionnement vocal](#confidentialité-et-fonctionnement-vocal)
@@ -198,6 +199,18 @@ créez le compte administrateur, choisissez le modèle Ollama dans la liste, aut
 microphone dans le navigateur, puis ouvrez le mode vocal.
 
 L’installation complète et les détails de configuration sont dans [docs/SETUP.md](docs/SETUP.md).
+
+### Comprendre le déploiement Docker
+
+Open WebUI, Whisper et Kokoro tournent dans Docker. Ollama et les modèles de langage
+restent installés sur la machine hôte ; le conteneur Open WebUI les contacte via
+`host.docker.internal`. Les conversations, comptes et réglages sont conservés dans le
+volume Docker `open-webui`, tandis que les fichiers vocaux Kokoro se trouvent dans
+`models/`.
+
+Le guide [Docker et Open WebUI](docs/DOCKER.md) détaille l’architecture, l’installation
+manuelle sur Linux, la configuration du premier compte et de la voix, les ports, les
+commandes d’administration, la sauvegarde et les problèmes courants.
 
 ## Changer de modèle
 

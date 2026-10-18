@@ -6,6 +6,10 @@ le développement et les outils agentiques locaux.
 
 ## 1. Architecture
 
+Pour comprendre en détail ce qui tourne dans Docker, suivre une installation Compose
+manuelle (notamment sous Linux) et dépanner Open WebUI, consultez aussi
+[Déployer Maxinus Live avec Docker et Open WebUI](DOCKER.md).
+
 Une conversation Maxinus Live suit cette chaîne :
 
 ```text
