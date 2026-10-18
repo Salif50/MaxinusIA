@@ -1,0 +1,15 @@
+.git
+.github
+.venv
+venv
+models
+data
+backups
+.env
+.env.*
+config.json
+__pycache__
+*.py[cod]
+*.egg-info
+*.wav
+.DS_Store

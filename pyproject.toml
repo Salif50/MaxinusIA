@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "maxinus-local"
+version = "0.1.0"
+description = "Assistant vocal agentique, local et open source"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+  "faster-whisper>=1.1.1",
+  "kokoro-onnx>=0.4.9",
+  "numpy>=1.26,<3",
+  "sounddevice>=0.5.1",
+  "soundfile>=0.13.1",
+  "silero-vad[onnx-cpu]>=6.2.3",
+  "webrtcvad-wheels>=2.0.14",
+]
+
+[project.scripts]
+maxinus = "maxinus.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["maxinus*"]

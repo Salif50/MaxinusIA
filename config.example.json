@@ -1,0 +1,14 @@
+{
+  "ollama_url": "http://127.0.0.1:11434",
+  "ollama_model": "qwen2.5:14b",
+  "whisper_model": "small",
+  "language": "fr",
+  "tts_voice": "ff_siwis",
+  "tts_speed": 1.05,
+  "input_device": null,
+  "output_device": null,
+  "wake_word": "maxinus",
+  "temperature": 0.35,
+  "context_messages": 20,
+  "workspace": "~"
+}

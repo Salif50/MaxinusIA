@@ -1,0 +1,64 @@
+name: maxinus
+
+services:
+  webui:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.open-webui
+    image: maxinus/open-webui:local-voice
+    container_name: maxinus-webui
+    command: ["bash", "/opt/maxinus/start-webui.sh"]
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY:?WEBUI_SECRET_KEY absent du fichier .env}
+      OLLAMA_BASE_URL: http://host.docker.internal:11434
+      AUDIO_STT_ENGINE: openai
+      AUDIO_STT_OPENAI_API_BASE_URL: http://stt:8000/v1
+      AUDIO_STT_OPENAI_API_KEY: maxinus-local-stt
+      AUDIO_STT_OPENAI_API_REQUEST_FORMAT: multipart
+      AUDIO_STT_MODEL: base
+      AUDIO_TTS_ENGINE: openai
+      AUDIO_TTS_OPENAI_API_BASE_URL: http://stt:8000/v1
+      AUDIO_TTS_OPENAI_API_KEY: maxinus-local-tts
+      AUDIO_TTS_MODEL: kokoro
+      AUDIO_TTS_VOICE: ff_siwis
+    volumes:
+      - open-webui:/app/backend/data
+    depends_on:
+      stt:
+        condition: service_healthy
+
+  stt:
+    image: maxinus/open-webui:local-voice
+    container_name: maxinus-stt
+    entrypoint: ["python", "-m", "uvicorn"]
+    command: ["stt_server:app", "--app-dir", "/opt/maxinus/stt", "--host", "0.0.0.0", "--port", "8000", "--timeout-keep-alive", "60"]
+    restart: unless-stopped
+    environment:
+      STT_API_KEY: maxinus-local-stt
+      TTS_API_KEY: maxinus-local-tts
+      WHISPER_MODEL: base
+      WHISPER_LANGUAGE: fr
+      WHISPER_MODEL_DIR: /data/cache/whisper/models
+      WHISPER_COMPUTE_TYPE: int8
+      WHISPER_VAD_FILTER: "true"
+      KOKORO_MODEL_PATH: /models/kokoro-v1.0.onnx
+      KOKORO_VOICES_PATH: /models/voices-v1.0.bin
+      KOKORO_DEFAULT_VOICE: ff_siwis
+    volumes:
+      - open-webui:/data
+      - ../models:/models:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
+
+volumes:
+  open-webui:
+    external: true

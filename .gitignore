@@ -1,0 +1,10 @@
+.venv/
+models/
+data/
+.env
+config.json
+backups/
+*.wav
+__pycache__/
+*.egg-info/
+.DS_Store

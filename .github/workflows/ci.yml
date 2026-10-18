@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-checks:
+    name: Static checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check Python syntax
+        run: python -m compileall -q src services scripts
+
+      - name: Install zsh for syntax checks
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y zsh
+
+      - name: Check shell scripts
+        run: >-
+          zsh -n setup.sh scripts/install-live.sh scripts/install-cli.sh
+          maxinus-live.command maxinus.command stop-maxinus.command
+          scripts/macos/fix_audio.command
+
+      - name: Validate Docker Compose configuration
+        run: |
+          printf 'WEBUI_SECRET_KEY=ci-placeholder-not-a-secret\n' > .env
+          docker compose --env-file .env -f docker/compose.yaml config --quiet

@@ -1,0 +1,10 @@
+FROM ghcr.io/open-webui/open-webui:slim
+
+# Reconnaissance vocale hors ligne pour le mode vocal Open WebUI.
+RUN pip install --no-cache-dir "faster-whisper==1.2.1" "kokoro-onnx==0.6.1"
+
+COPY services/stt /opt/maxinus/stt
+COPY scripts/configure_openwebui_stt.py /opt/maxinus/configure_openwebui_stt.py
+COPY docker/start-webui.sh /opt/maxinus/start-webui.sh
+
+RUN chmod +x /opt/maxinus/start-webui.sh
